@@ -1,2 +1,3 @@
-export const authValidation = require('./auth.validation');
-export const userValidation = require('./user.validation');
+import * as todoValidation from './todo.validation';
+
+export { todoValidation };

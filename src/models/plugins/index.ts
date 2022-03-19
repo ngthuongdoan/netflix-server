@@ -1,2 +1,1 @@
-export const toJSON = require('./toJSON.plugin');
-export const paginate = require('./paginate.plugin');
+// module.exports.paginate = require('./paginate.plugin');

@@ -1,32 +1,30 @@
-version: '3'
-
-services:
-  node-app:
-    build: .
-    image: node-app
-    environment:
-      - MONGODB_URL=mongodb://mongodb:27017/node-boilerplate
-    ports:
-      - '3000:3000'
-    depends_on:
-      - mongodb
-    volumes:
-      - .:/usr/src/node-app
-    networks:
-      - node-network
-
-  mongodb:
-    image: mongo:4.2.1-bionic
-    ports:
-      - '27017:27017'
-    volumes:
-      - dbdata:/data/db
-    networks:
-      - node-network
-
-volumes:
-  dbdata:
-
-networks:
-  node-network:
-    driver: bridge
+--- 
+    networks: 
+      node-network: 
+        driver: bridge
+    services: 
+      mongodb: 
+        image: mongo
+        networks: 
+          - node-network
+        ports: 
+          - "27017:27017"
+        volumes: 
+          - "dbdata:/data/db"
+      knowledge-review-server: 
+        build: 
+          context: "."
+        depends_on: 
+          - mongodb
+        environment: 
+          - "MONGODB_URL=mongodb://mongodb:27017/todolist"
+        image: knowledge-review-server
+        networks: 
+          - node-network
+        ports: 
+          - "5000:5000"
+        volumes: 
+          - ".:/usr/src/node-server"
+    version: "3"
+    volumes: 
+      dbdata: ~

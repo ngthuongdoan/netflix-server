@@ -1,10 +1,13 @@
-import { HttpStatus } from 'http-status';
-
 class ApiError extends Error {
-  statusCode: number | string;
-  isOperational: boolean;
+  statusCode: number;
+  isOperational?: boolean;
 
-  constructor(statusCode: number | string, message: string, isOperational: boolean = true, stack = '') {
+  constructor(
+    statusCode: number,
+    message: string,
+    isOperational = true,
+    stack = ''
+  ) {
     super(message);
     this.statusCode = statusCode;
     this.isOperational = isOperational;
@@ -15,5 +18,4 @@ class ApiError extends Error {
     }
   }
 }
-
 export default ApiError;

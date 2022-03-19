@@ -1,10 +1,10 @@
-const mongoose = require('mongoose');
-const httpStatus = require('http-status');
-const httpMocks = require('node-mocks-http');
-const { errorConverter, errorHandler } = require('../../../src/middlewares/error');
-const ApiError = require('../../../src/utils/ApiError');
-const config = require('../../../src/config/config');
-const logger = require('../../../src/config/logger');
+import * as mongoose from 'mongoose';
+import httpStatus from 'http-status';
+import httpMocks from 'node-mocks-http';
+import { errorConverter, errorHandler } from '../../../src/middlewares/error';
+import ApiError from '../../../src/utils/ApiError';
+import config from '../../../src/config/config';
+import logger from '../../../src/config/logger';
 
 describe('Error middlewares', () => {
   describe('Error converter', () => {
@@ -12,17 +12,27 @@ describe('Error middlewares', () => {
       const error = new ApiError(httpStatus.BAD_REQUEST, 'Any error');
       const next = jest.fn();
 
-      errorConverter(error, httpMocks.createRequest(), httpMocks.createResponse(), next);
+      errorConverter(
+        error,
+        httpMocks.createRequest(),
+        httpMocks.createResponse(),
+        next
+      );
 
       expect(next).toHaveBeenCalledWith(error);
     });
 
     test('should convert an Error to ApiError and preserve its status and message', () => {
-      const error = new Error('Any error');
+      const error = new Error('Any error') as ApiError;
       error.statusCode = httpStatus.BAD_REQUEST;
       const next = jest.fn();
 
-      errorConverter(error, httpMocks.createRequest(), httpMocks.createResponse(), next);
+      errorConverter(
+        error,
+        httpMocks.createRequest(),
+        httpMocks.createResponse(),
+        next
+      );
 
       expect(next).toHaveBeenCalledWith(expect.any(ApiError));
       expect(next).toHaveBeenCalledWith(
@@ -38,7 +48,12 @@ describe('Error middlewares', () => {
       const error = new Error('Any error');
       const next = jest.fn();
 
-      errorConverter(error, httpMocks.createRequest(), httpMocks.createResponse(), next);
+      errorConverter(
+        error,
+        httpMocks.createRequest(),
+        httpMocks.createResponse(),
+        next
+      );
 
       expect(next).toHaveBeenCalledWith(expect.any(ApiError));
       expect(next).toHaveBeenCalledWith(
@@ -51,11 +66,16 @@ describe('Error middlewares', () => {
     });
 
     test('should convert an Error without message to ApiError with default message of that http status', () => {
-      const error = new Error();
+      const error: ApiError = <ApiError>new Error();
       error.statusCode = httpStatus.BAD_REQUEST;
       const next = jest.fn();
 
-      errorConverter(error, httpMocks.createRequest(), httpMocks.createResponse(), next);
+      errorConverter(
+        error,
+        httpMocks.createRequest(),
+        httpMocks.createResponse(),
+        next
+      );
 
       expect(next).toHaveBeenCalledWith(expect.any(ApiError));
       expect(next).toHaveBeenCalledWith(
@@ -71,7 +91,12 @@ describe('Error middlewares', () => {
       const error = new mongoose.Error('Any mongoose error');
       const next = jest.fn();
 
-      errorConverter(error, httpMocks.createRequest(), httpMocks.createResponse(), next);
+      errorConverter(
+        error,
+        httpMocks.createRequest(),
+        httpMocks.createResponse(),
+        next
+      );
 
       expect(next).toHaveBeenCalledWith(expect.any(ApiError));
       expect(next).toHaveBeenCalledWith(
@@ -87,7 +112,12 @@ describe('Error middlewares', () => {
       const error = {};
       const next = jest.fn();
 
-      errorConverter(error, httpMocks.createRequest(), httpMocks.createResponse(), next);
+      errorConverter(
+        error,
+        httpMocks.createRequest(),
+        httpMocks.createResponse(),
+        next
+      );
 
       expect(next).toHaveBeenCalledWith(expect.any(ApiError));
       expect(next).toHaveBeenCalledWith(
@@ -102,7 +132,7 @@ describe('Error middlewares', () => {
 
   describe('Error handler', () => {
     beforeEach(() => {
-      jest.spyOn(logger, 'error').mockImplementation(() => {});
+      jest.spyOn(logger, 'error').mockImplementation();
     });
 
     test('should send proper error response and put the error message in res.locals', () => {
@@ -110,9 +140,14 @@ describe('Error middlewares', () => {
       const res = httpMocks.createResponse();
       const sendSpy = jest.spyOn(res, 'send');
 
-      errorHandler(error, httpMocks.createRequest(), res);
+      errorHandler(error, httpMocks.createRequest(), res, () => {});
 
-      expect(sendSpy).toHaveBeenCalledWith(expect.objectContaining({ code: error.statusCode, message: error.message }));
+      expect(sendSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          code: error.statusCode,
+          message: error.message,
+        })
+      );
       expect(res.locals.errorMessage).toBe(error.message);
     });
 
@@ -122,10 +157,14 @@ describe('Error middlewares', () => {
       const res = httpMocks.createResponse();
       const sendSpy = jest.spyOn(res, 'send');
 
-      errorHandler(error, httpMocks.createRequest(), res);
+      errorHandler(error, httpMocks.createRequest(), res, () => {});
 
       expect(sendSpy).toHaveBeenCalledWith(
-        expect.objectContaining({ code: error.statusCode, message: error.message, stack: error.stack })
+        expect.objectContaining({
+          code: error.statusCode,
+          message: error.message,
+          stack: error.stack,
+        })
       );
       config.env = process.env.NODE_ENV;
     });
@@ -136,7 +175,7 @@ describe('Error middlewares', () => {
       const res = httpMocks.createResponse();
       const sendSpy = jest.spyOn(res, 'send');
 
-      errorHandler(error, httpMocks.createRequest(), res);
+      errorHandler(error, httpMocks.createRequest(), res, () => {});
 
       expect(sendSpy).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -154,7 +193,7 @@ describe('Error middlewares', () => {
       const res = httpMocks.createResponse();
       const sendSpy = jest.spyOn(res, 'send');
 
-      errorHandler(error, httpMocks.createRequest(), res);
+      errorHandler(error, httpMocks.createRequest(), res, () => {});
 
       expect(sendSpy).toHaveBeenCalledWith(
         expect.objectContaining({

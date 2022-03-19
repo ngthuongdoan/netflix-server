@@ -1,18 +1,20 @@
-import mongoose from 'mongoose';
-import app from './app';
+import dotenv from 'dotenv';
+dotenv.config();
 import { Server } from 'http';
-import { Environment } from './config/env';
+import app from './app';
+import config from './config/config';
 import logger from './config/logger';
+import mongoose from 'mongoose';
+import ApiError from './utils/ApiError';
 
 let server: Server;
 
-(() => {
-  mongoose.connect(Environment.mongoose.url, Environment.mongoose.options);
+mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
   logger.info('Connected to MongoDB');
-  server = app.listen(Environment.port, () => {
-    logger.info(`Listening to port ${Environment.port}`);
+  server = app.listen(config.port, () => {
+    logger.info(`Listening to port ${config.port}`);
   });
-})();
+});
 
 const exitHandler = () => {
   if (server) {
@@ -25,7 +27,7 @@ const exitHandler = () => {
   }
 };
 
-const unexpectedErrorHandler = (error: Error) => {
+const unexpectedErrorHandler = (error: ApiError | Error) => {
   logger.error(error);
   exitHandler();
 };

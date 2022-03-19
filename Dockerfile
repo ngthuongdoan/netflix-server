@@ -1,15 +1,19 @@
 FROM node:alpine
 
-RUN mkdir -p /usr/src/node-app && chown -R node:node /usr/src/node-app
+LABEL "author"="ngthuongdoan"
+LABEL "author.email"="ngthuongdoan@gmail.com"
+LABEL "description"="This is a server for my netflit clone"
 
-WORKDIR /usr/src/node-app
+RUN mkdir /usr/node-server && chown -R node:node /usr/node-server
 
-COPY package.json yarn.lock ./
+WORKDIR /usr/node-server
+
+COPY ./ ./
+RUN yarn install --pure-lockfile
+RUN yarn generate
 
 USER node
-
-RUN yarn install --pure-lockfile
-
 COPY --chown=node:node . .
 
-EXPOSE 3000
+EXPOSE 5000
+# CMD ["dist/src/index.js"]

@@ -1,6 +1,6 @@
 version: '3'
 
 services:
-  node-app:
-    container_name: node-app-dev
+  knowledge-review-server:
+    container_name: node-server-dev
     command: yarn dev -L

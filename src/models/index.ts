@@ -1,2 +1,3 @@
-export const Token = require('./token.model');
-export const User = require('./user.model');
+import Todo from './todo.model';
+
+export { Todo };

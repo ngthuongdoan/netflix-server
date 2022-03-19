@@ -1,20 +1,20 @@
-import { Request, Response } from 'express';
+import { ServerResponse } from 'http';
 import morgan from 'morgan';
-import { Environment } from './env';
 import logger from './logger';
 
-morgan.token<Request, Response>('message', (req, res) => res.locals.errorMessage || '');
+morgan.token('message', (_, res: any) => res.locals.errorMessage || '');
 
-const getIpFormat = () => (Environment.env === 'production' ? ':remote-addr - ' : '');
-const successResponseFormat = `${getIpFormat()}:method :url :status - :response-time ms`;
-const errorResponseFormat = `${getIpFormat()}:method :url :status - :response-time ms - message: :message`;
+const successResponseFormat = `:method :url :status - :response-time ms`;
+const errorResponseFormat = `:method :url :status - :response-time ms - message :message`;
 
-export const successHandler = morgan(successResponseFormat, {
-  skip: (req, res) => res.statusCode >= 400,
-  stream: { write: (message) => logger.info(message.trim()) },
+const successHandler = morgan(successResponseFormat, {
+  skip: (_, res) => res.statusCode >= 400,
+  stream: { write: (message: string) => logger.info(message.trim()) },
 });
 
-export const errorHandler = morgan(errorResponseFormat, {
-  skip: (req, res) => res.statusCode < 400,
-  stream: { write: (message) => logger.error(message.trim()) },
+const errorHandler = morgan(errorResponseFormat, {
+  skip: (_, res: ServerResponse) => res.statusCode < 400,
+  stream: { write: (message: string) => logger.error(message.trim()) },
 });
+
+export { successHandler, errorHandler };
