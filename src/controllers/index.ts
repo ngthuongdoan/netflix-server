@@ -1,2 +1,3 @@
 import todoController from './todo.controller';
-export { todoController };
+import commonController from './common.controller';
+export { todoController, commonController };

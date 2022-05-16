@@ -1,2 +1,3 @@
 import * as todoService from './todo.service';
-export { todoService };
+import * as commonService from './common.service';
+export { todoService, commonService };

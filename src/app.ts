@@ -8,6 +8,7 @@ import compression from 'compression';
 import ApiError from './utils/ApiError';
 import { errorConverter, errorHandler } from './middlewares/error';
 import * as morgan from './config/morgan';
+import { GLOBAL } from './constants/global';
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use(compression());
 app.use(cors());
 // app.options('*', cors());
 
+app.set(GLOBAL.TOKEN, '');
 app.use('/', routes);
 
 app.use((req: Request, res: Response, next: NextFunction) => {

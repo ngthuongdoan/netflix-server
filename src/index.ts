@@ -6,8 +6,23 @@ import config from './config/config';
 import logger from './config/logger';
 import mongoose from 'mongoose';
 import ApiError from './utils/ApiError';
+import axios from 'axios';
+import { GLOBAL } from './constants/global';
 
 let server: Server;
+(async () => {
+  try {
+    logger.info('Connecting to TMDB');
+    await import('./config/axios');
+    const response = await axios.get<{ request_token: string; expires_at: string }>('/authentication/token/new');
+    if (response.status === 200 && response.data) {
+      app.set(GLOBAL.TOKEN, response.data.request_token);
+      logger.info('Connected to TMDB');
+    }
+  } catch (error) {
+    logger.error('Failed to connect to TMDB');
+  }
+})();
 
 mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
   logger.info('Connected to MongoDB');

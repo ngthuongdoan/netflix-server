@@ -1,6 +1,6 @@
 version: '3'
 
 services:
-  knowledge-review-server:
+  netflix-clone:
     container_name: node-server-prod
     command: yarn start

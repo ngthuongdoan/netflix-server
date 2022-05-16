@@ -3,6 +3,7 @@ import todoController from '../controllers/todo.controller';
 import validate from '../middlewares/validate';
 import { todoValidation } from '../validations';
 
+// Todo Routes /todo
 const router = Router();
 router
   .route('/')
