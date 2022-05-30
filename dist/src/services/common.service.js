@@ -41,8 +41,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getTrending = void 0;
 var axios_1 = __importDefault(require("axios"));
+var query_string_1 = __importDefault(require("query-string"));
 var http_status_1 = __importDefault(require("http-status"));
-var ApiError_1 = __importDefault(require("../utils/ApiError"));
+var ApiError_1 = __importDefault(require("@app/utils/ApiError"));
 /**
  * Get trending
  * @link https://developers.themoviedb.org/3/trending/get-trending
@@ -72,3 +73,42 @@ var getTrending = function (media_type, time_window) {
     });
 };
 exports.getTrending = getTrending;
+/**
+ * Get trending
+ * @link https://developers.themoviedb.org/3/trending/get-trending
+ * @param media_type
+ * @param time_window
+ * @returns
+ */
+var getUpcoming = function (language, page, region) {
+    if (language === void 0) { language = 'en-US'; }
+    if (page === void 0) { page = 1; }
+    return __awaiter(void 0, void 0, void 0, function () {
+        var query, response, error_2;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    query = query_string_1.default.stringifyUrl({
+                        url: '/movie/upcoming',
+                        query: {
+                            language: language,
+                            page: page,
+                            region: region,
+                        },
+                    }, {
+                        skipNull: true,
+                        skipEmptyString: true,
+                    });
+                    return [4 /*yield*/, axios_1.default.get(query)];
+                case 1:
+                    response = _a.sent();
+                    return [2 /*return*/, response.data];
+                case 2:
+                    error_2 = _a.sent();
+                    throw new ApiError_1.default(http_status_1.default.NOT_FOUND, error_2);
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+};
