@@ -1,7 +1,7 @@
 import axios from 'axios';
 import queryString from 'query-string';
 import httpStatus from 'http-status';
-import ApiError from '@app/utils/ApiError';
+import ApiError from '../utils/ApiError';
 
 /**
  * Get trending
