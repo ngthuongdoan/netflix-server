@@ -43,7 +43,7 @@ exports.getTrending = void 0;
 var axios_1 = __importDefault(require("axios"));
 var query_string_1 = __importDefault(require("query-string"));
 var http_status_1 = __importDefault(require("http-status"));
-var ApiError_1 = __importDefault(require("@app/utils/ApiError"));
+var ApiError_1 = __importDefault(require("../utils/ApiError"));
 /**
  * Get trending
  * @link https://developers.themoviedb.org/3/trending/get-trending
