@@ -20,13 +20,14 @@ const getTrending = async (media_type = 'all', time_window = 'week') => {
 };
 
 /**
- * Get trending
- * @link https://developers.themoviedb.org/3/trending/get-trending
- * @param media_type
- * @param time_window
+ * Get upcoming
+ * @link https://developers.themoviedb.org/3/movies/get-upcoming
+ * @param  {string} language
+ * @param  {number} page
+ * @param  {string} region
  * @returns
  */
-const getUpcoming = async (language: string = 'en-US', page: number = 1, region: string) => {
+const getUpcoming = async (language = 'en-US', page = 1, region = '') => {
   try {
     const query = queryString.stringifyUrl(
       {
@@ -49,4 +50,4 @@ const getUpcoming = async (language: string = 'en-US', page: number = 1, region:
   }
 };
 
-export { getTrending };
+export { getTrending, getUpcoming };

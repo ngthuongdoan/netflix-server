@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTrending = void 0;
+exports.getUpcoming = exports.getTrending = void 0;
 var axios_1 = __importDefault(require("axios"));
 var query_string_1 = __importDefault(require("query-string"));
 var http_status_1 = __importDefault(require("http-status"));
@@ -74,15 +74,17 @@ var getTrending = function (media_type, time_window) {
 };
 exports.getTrending = getTrending;
 /**
- * Get trending
- * @link https://developers.themoviedb.org/3/trending/get-trending
- * @param media_type
- * @param time_window
+ * Get upcoming
+ * @link https://developers.themoviedb.org/3/movies/get-upcoming
+ * @param  {string} language
+ * @param  {number} page
+ * @param  {string} region
  * @returns
  */
 var getUpcoming = function (language, page, region) {
     if (language === void 0) { language = 'en-US'; }
     if (page === void 0) { page = 1; }
+    if (region === void 0) { region = ''; }
     return __awaiter(void 0, void 0, void 0, function () {
         var query, response, error_2;
         return __generator(this, function (_a) {
@@ -112,3 +114,4 @@ var getUpcoming = function (language, page, region) {
         });
     });
 };
+exports.getUpcoming = getUpcoming;

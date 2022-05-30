@@ -12,6 +12,17 @@ const getTrending: RequestHandler = async (_, res) => {
   }
 };
 
+const getUpcoming: RequestHandler = async (_, res) => {
+  try {
+    const result = await commonService.getUpcoming();
+    res.status(200).send(result);
+  } catch (error: any) {
+    console.log(error);
+    res.status(error.statusCode).send({ message: httpStatus[error.statusCode] });
+  }
+};
+
 export default {
   getTrending,
+  getUpcoming,
 };

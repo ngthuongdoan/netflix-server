@@ -13,4 +13,5 @@ var router = express_1.Router();
  * /common/trending
  */
 router.route('/trending').get(validate_1.default(validations_1.commonValidation.getTrending), controllers_1.commonController.getTrending);
+router.route('/upcoming').get(validate_1.default(validations_1.commonValidation.getUpcoming), controllers_1.commonController.getUpcoming);
 exports.default = router;

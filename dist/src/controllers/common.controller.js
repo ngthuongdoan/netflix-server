@@ -61,6 +61,27 @@ var getTrending = function (_, res) { return __awaiter(void 0, void 0, void 0, f
         }
     });
 }); };
+var getUpcoming = function (_, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var result, error_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, services_1.commonService.getUpcoming()];
+            case 1:
+                result = _a.sent();
+                res.status(200).send(result);
+                return [3 /*break*/, 3];
+            case 2:
+                error_2 = _a.sent();
+                console.log(error_2);
+                res.status(error_2.statusCode).send({ message: http_status_1.default[error_2.statusCode] });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
 exports.default = {
     getTrending: getTrending,
+    getUpcoming: getUpcoming,
 };

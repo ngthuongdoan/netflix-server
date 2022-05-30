@@ -1,3 +1,3 @@
 const getTrending = {};
-
-export { getTrending };
+const getUpcoming = {};
+export { getTrending, getUpcoming };
