@@ -1,4 +1,3 @@
-import { AxiosError } from 'axios';
 import { RequestHandler } from 'express';
 import httpStatus from 'http-status';
 import { commonService, todoService } from '../services';
