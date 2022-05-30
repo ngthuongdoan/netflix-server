@@ -2,13 +2,14 @@
   "apps": [
     {
       "name": "app",
-      "script": "dist/index.js",
-      "instances": 1,
+      "script": "dist/src/index.js",
       "autorestart": true,
       "watch": false,
       "time": true,
+      "instances": "max",
+      "exec_mode": "cluster",
       "env": {
-        "NODE_ENV": "production"
+        "NODE_ENV": "localhost"
       }
     }
   ]
