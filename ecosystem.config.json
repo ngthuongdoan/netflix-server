@@ -8,9 +8,7 @@
       "time": true,
       "instances": "max",
       "exec_mode": "cluster",
-      "env": {
-        "NODE_ENV": "localhost"
-      }
+      "env": {}
     }
   ]
 }
