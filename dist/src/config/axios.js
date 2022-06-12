@@ -20,9 +20,6 @@ function isExcluded(list, url) {
 axios_1.default.defaults.baseURL = config_1.default.TMDB.url;
 axios_1.default.defaults.params = { api_key: config_1.default.TMDB.apiKey };
 axios_1.default.interceptors.request.use(function (config) {
-    console.log('🚀 ---------------------------------------------');
-    console.log('🚀 ~ file: axios.ts ~ line 23 ~ config', config);
-    console.log('🚀 ---------------------------------------------');
     if (config.url) {
         var token = app_1.default.get(global_1.GLOBAL.TOKEN);
         if (token && config.headers) {

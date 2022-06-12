@@ -20,10 +20,6 @@ axios.defaults.params = { api_key: config.TMDB.apiKey };
 
 axios.interceptors.request.use(
   (config: AxiosRequestConfig) => {
-    console.log('🚀 ---------------------------------------------');
-    console.log('🚀 ~ file: axios.ts ~ line 23 ~ config', config);
-    console.log('🚀 ---------------------------------------------');
-
     if (config.url) {
       const token = app.get(GLOBAL.TOKEN);
       if (token && config.headers) {

@@ -33,6 +33,19 @@ var ApiError_1 = __importDefault(require("./utils/ApiError"));
 var error_1 = require("./middlewares/error");
 var morgan = __importStar(require("./config/morgan"));
 var global_1 = require("./constants/global");
+var swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
+var swagger_jsdoc_1 = __importDefault(require("swagger-jsdoc"));
+var options = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'Hello World',
+            version: '1.0.0',
+        },
+    },
+    apis: ['src/routes/*.ts'],
+};
+var swaggerSpec = swagger_jsdoc_1.default(options);
 var app = express_1.default();
 app.use(helmet_1.default());
 app.use(morgan.successHandler);
@@ -46,6 +59,7 @@ app.use(cors_1.default());
 // app.options('*', cors());
 app.set(global_1.GLOBAL.TOKEN, '');
 app.use('/', routes_1.default);
+app.use('/api-docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swaggerSpec));
 app.use(function (req, res, next) {
     next(new ApiError_1.default(http_status_1.default.NOT_FOUND, 'Not found'));
 });

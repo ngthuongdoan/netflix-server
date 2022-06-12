@@ -132,3 +132,5 @@ out
 
 .env.*.local
 .env.local
+
+dist/
